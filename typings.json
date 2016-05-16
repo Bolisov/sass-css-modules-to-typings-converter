@@ -1,0 +1,9 @@
+{
+  "name": "sass-css-modules-to-typings-converter",
+  "version": false,
+  "dependencies": {},
+  "ambientDependencies": {
+    "node": "registry:dt/node#6.0.0+20160514165920",
+    "tmp": "registry:dt/tmp#0.0.0+20160514170650"
+  }
+}
