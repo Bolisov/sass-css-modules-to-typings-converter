@@ -7,7 +7,7 @@
             "request": "launch",
             "program": "${workspaceRoot}/index.ts",
             "stopOnEntry": false,
-            "args": [ ],
+            "args": [ "--watch" ],
             "cwd": "${workspaceRoot}",
             "preLaunchTask": "build",
             "runtimeExecutable": null,

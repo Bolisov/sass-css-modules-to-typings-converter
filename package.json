@@ -4,13 +4,16 @@
   "description": "SASS css modules to Typesript typings converter",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node index.ts",
+    "start": "ts-node index.ts --watch",
     "build": "tsc -p .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Alexey Bolisov",
   "license": "ISC",
   "dependencies": {
+    "chokidar": "^1.5.0",
+    "commander": "^2.9.0",
+    "find": "^0.2.4",
     "node-sass": "^3.7.0",
     "path": "^0.12.7",
     "tmp": "0.0.28",
