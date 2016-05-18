@@ -44,7 +44,7 @@ async function processFile(filename: string) {
             onAfterWrite: writer => {
                 writer.writeLine(``);                                
                 writer.writeLine(`declare var style: Styles`);
-                writer.writeLine(`export default style;`);
+                writer.writeLine(`export = style;`);
             }
         });
 
