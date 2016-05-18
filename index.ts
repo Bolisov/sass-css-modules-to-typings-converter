@@ -43,7 +43,7 @@ async function processFile(filename: string) {
             properties: tokens.map<TsTypeInfo.ClassPropertyStructure>(token => ({ name: `'${token}'`, type: 'string' })),
             onAfterWrite: writer => {
                 writer.writeLine(``);
-                writer.writeLine(`export declare var style: Styles;`);
+                writer.writeLine(`export default var style: Styles;`);
             }
         });
 
