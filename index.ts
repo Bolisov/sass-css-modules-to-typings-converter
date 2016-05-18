@@ -42,8 +42,9 @@ async function processFile(filename: string) {
             hasDeclareKeyword: true,
             properties: tokens.map<TsTypeInfo.ClassPropertyStructure>(token => ({ name: `'${token}'`, type: 'string' })),
             onAfterWrite: writer => {
-                writer.writeLine(``);
-                writer.writeLine(`export default var style: Styles;`);
+                writer.writeLine(``);                                
+                writer.writeLine(`declare var style: Styles`);
+                writer.writeLine(`export default style;`);
             }
         });
 
