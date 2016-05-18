@@ -7,7 +7,11 @@
             "request": "launch",
             "program": "${workspaceRoot}/index.ts",
             "stopOnEntry": false,
-            "args": [ "--watch" ],
+            "args": [
+                "--watch",
+                "-d",
+                "test"
+            ],
             "cwd": "${workspaceRoot}",
             "preLaunchTask": "build",
             "runtimeExecutable": null,
@@ -18,10 +22,10 @@
                 "NODE_ENV": "development"
             },
             "externalConsole": false,
-            "sourceMaps": true,            
+            "sourceMaps": true,
             "port": 5858,
             "outDir": "${workspaceRoot}\\bin",
-            "smartStep": true            
+            "smartStep": true
         },
         {
             "name": "Attach",

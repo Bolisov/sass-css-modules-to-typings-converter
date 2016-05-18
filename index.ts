@@ -4,8 +4,12 @@ import * as fs from 'fs';
 import * as pathUtils from 'path';
 import * as program from 'commander';
 import * as chokidar from 'chokidar';
+import * as TsTypeInfo from 'ts-type-info';
 
-let inputFileName = './test.scss'
+//  import styles from './test/test.scss'; 
+
+//  styles.
+
 let DtsCreator = require('typed-css-modules');
 let find = require('find');
 
@@ -25,7 +29,25 @@ async function processFile(filename: string) {
         fs.writeFileSync(tmpFile.name, css);
         let cssToDtsConverter = new DtsCreator();
         let content = await cssToDtsConverter.create(tmpFile.name);
-        fs.writeFileSync(destFileName, content.formatted);
+        let tokens = content.rawTokenList as string[];
+
+        let typings = TsTypeInfo.createFile();
+
+        typings.addClasses({
+            name: 'Styles',
+            isExported: true,
+            isDefaultExportOfFile: true,
+            isAmbient: true,
+            isNamedExportOfFile: true,
+            hasDeclareKeyword: true,
+            properties: tokens.map<TsTypeInfo.ClassPropertyStructure>(token => ({ name: `'${token}'`, type: 'string' })),
+            onAfterWrite: writer => {
+                writer.writeLine(``);
+                writer.writeLine(`export declare var style: Styles;`);
+            }
+        });
+
+        fs.writeFileSync(destFileName, typings.write());
     }
     catch (e) {
         console.error(e);
@@ -39,7 +61,7 @@ async function processFile(filename: string) {
 program
     .version('1.0.0')
     .option('-d, --dir [root]', 'set root directory')
-    .option('-m, --match [regex]', 'set files regex', '\\.scss$')
+    .option('-m, --match [regex]', 'set files regex', '^[^_].+\\.scss$')
     .option('-w, --watch', 'watch mode')
     .parse(process.argv);
 
@@ -62,20 +84,20 @@ files.reduce<Promise<void>>((previous, current) => previous.then(() => processFi
             watcher
                 .on('add', path => {
                     if (match.test(path)) {
-                        processFile(path);
+                        processFile(pathUtils.join(workingDirectory, path));
                     }
                 })
                 .on('change', path => {
                     if (match.test(path)) {
-                        processFile(path);
+                        processFile(pathUtils.join(workingDirectory, path));
                     }
                 })
                 .on('unlink', path => {
                     if (match.test(path)) {
-                        let destFileName = getDestFileName(path);
+                        let destFileName = getDestFileName(pathUtils.join(workingDirectory, path));
 
                         if (fs.existsSync(destFileName)) {
-                            fs.unlinkSync(getDestFileName(path))
+                            fs.unlinkSync(destFileName)
                         }
                     }
                 });

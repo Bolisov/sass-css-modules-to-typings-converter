@@ -4,7 +4,7 @@
   "description": "SASS css modules to Typesript typings converter",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node index.ts --watch",
+    "start": "ts-node index.ts",
     "build": "tsc -p .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,6 +18,7 @@
     "path": "^0.12.7",
     "tmp": "0.0.28",
     "ts-node": "^0.7.3",
+    "ts-type-info": "^3.1.1",
     "typed-css-modules": "^0.1.6",
     "typescript": "^1.8.10",
     "typings": "^0.8.1"
