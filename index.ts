@@ -5,6 +5,7 @@ import * as pathUtils from 'path';
 import * as program from 'commander';
 import * as chokidar from 'chokidar';
 import * as TsTypeInfo from 'ts-type-info';
+import * as camelCase from 'camelcase';
 
 //  import styles from './test/test.scss'; 
 
@@ -32,6 +33,7 @@ async function processFile(filename: string) {
         let tokens = content.rawTokenList as string[];
 
         let typings = TsTypeInfo.createFile();
+        let formatter = (token) => program['camelCase'] ? camelCase(token) : token;
 
         typings.addClasses({
             name: 'Styles',
@@ -40,7 +42,7 @@ async function processFile(filename: string) {
             isAmbient: true,
             isNamedExportOfFile: true,
             hasDeclareKeyword: true,
-            properties: tokens.map<TsTypeInfo.ClassPropertyStructure>(token => ({ name: `'${token}'`, type: 'string' })),
+            properties: tokens.map<TsTypeInfo.ClassPropertyStructure>(token => ({ name: `'${formatter(token)}'`, type: 'string' })),
             onAfterWrite: writer => {
                 writer.writeLine(``);                                
                 writer.writeLine(`declare var style: Styles`);
@@ -64,6 +66,7 @@ program
     .option('-d, --dir [root]', 'set root directory')
     .option('-m, --match [regex]', 'set files regex', '^[^_].+\\.scss$')
     .option('-w, --watch', 'watch mode')
+    .option('--camel-case', 'use camelCased exports')
     .parse(process.argv);
 
 let workingDirectory = pathUtils.join(process.cwd(), program['dir'] || '');

@@ -10,7 +10,8 @@
             "args": [
                 "--watch",
                 "-d",
-                "test"
+                "test",
+                "--camel-case"
             ],
             "cwd": "${workspaceRoot}",
             "preLaunchTask": "build",

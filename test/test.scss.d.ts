@@ -1,7 +1,8 @@
 declare class Styles {
     'class1': string;
-    'class2-var': string;
-    'class6-3': string;
+    'class2Var': string;
+    'class63': string;
 }
 
-export declare var style: Styles;
+declare var style: Styles
+export = style;
